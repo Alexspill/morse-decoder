@@ -39,28 +39,25 @@ const MORSE_TABLE = {
 
 function decode(expr) {
     let result = '';
-    let symbol = '';
-    for (let i=0;i<expr.length;i+10){
+    let pureMorze = [];
+    let pureMorzeCode = '';
+    for (let i=0;i < expr.length; i+=10){
         let j = 1;
-        let code = expr.slice(i, i+10);
-        let pureMorze = code.slice(code.indexOf('1', i)).split('');
-        pureMorze[0] === '*' ? result += ' ' : '';
-        let pureMorzeCode = '';
-        
-        while(pureMorze[0] !== '*' && j < pureMorze.length){
-            pureMorze[j] === '1' ? pureMorzeCode += '-' : pureMorzeCode += '.';
-            j+=2;
-        }
-        symbol = MORSE_TABLE[pureMorzeCode];
-        result += symbol;
+        let code = expr.slice(i, i+11);
+        if (code[0] === '*') {
+            result += ' ';}
+        else {
+        pureMorze = code.slice(code.indexOf('1')).split('');
+        pureMorzeCode = '';
+                while(j < pureMorze.length){
+                    pureMorze[j] === '1' ? pureMorzeCode += '-' : pureMorzeCode += '.';
+                    j += 2;
+                }
+                result += MORSE_TABLE[pureMorzeCode];
+            }
     }
-
-return console.log(result);
+return result;    
 }
-
-
-decode ("00101010100000000010001011101000101110100000111111**********00001011110000111111000010111000101110100000111010");
-
-// module.exports = {
-//     decode
-// }
+module.exports = {
+    decode
+}
